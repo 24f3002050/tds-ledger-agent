@@ -143,9 +143,20 @@ def answer_question(question):
     # Pick the dataset status according to the question's intended metric.
     asks_refund = any(x in q for x in ("refund", "refunded", "reimbursement"))
     asks_void = "void" in q
-    asks_count = any(x in q for x in ("how many", "count", "number of"))
+    asks_count = (
+    any(x in q for x in ("how many", "count", "number of"))
+    and "average" not in q
+)
     asks_quantity = any(x in q for x in ("quantity", "quantities", "units sold", "items sold"))
-    asks_average = any(x in q for x in ("average order value", "average sale", "average revenue"))
+    asks_average = any(
+    x in q
+    for x in (
+        "average order value",
+        "average sale",
+        "average revenue",
+        "on average",
+    )
+)
     asks_customer_count = "customers" in q and asks_count
     asks_product_list = ("list products" in q or "which products" in q or "what products" in q) and not any(x in q for x in ("revenue", "sales", "units", "sold"))
     asks_region_rank = "which region" in q and any(x in q for x in ("highest", "most", "top", "largest"))
